@@ -41,7 +41,7 @@
 
         /* Боковая панель */
         .sidebar {
-            width: 300px;
+            width: 320px;
             background: var(--bg-secondary);
             border-right: 2px solid var(--border-color);
             display: flex;
@@ -52,7 +52,7 @@
 
         .sidebar h2 {
             color: var(--text-light);
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             margin-top: 0;
             display: flex;
             justify-content: space-between;
@@ -69,26 +69,43 @@
             font-size: 12px;
         }
 
+        .user-stats {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border-color);
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            font-size: 13px;
+        }
+
         .lessons-list {
             list-style: none;
             padding: 0;
-            margin: 15px 0 0 0;
+            margin: 0;
         }
 
         .lesson-item {
-            padding: 12px;
+            padding: 10px 12px;
             margin-bottom: 8px;
             background: rgba(255,255,255,0.02);
             border: 1px solid var(--border-color);
             border-radius: 6px;
             cursor: pointer;
             transition: 0.15s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13px;
         }
 
         .lesson-item:hover, .lesson-item.active {
             border-color: var(--accent);
             background: rgba(255, 230, 0, 0.05);
             color: var(--text-light);
+        }
+
+        .lesson-item.completed {
+            border-color: var(--success);
         }
 
         /* Основная область */
@@ -109,17 +126,40 @@
         }
 
         .task-card h2 { margin-top: 0; color: var(--text-light); }
+        
+        .theory-box {
+            background: rgba(255,255,255,0.02);
+            border-left: 3px solid var(--accent);
+            padding: 10px 15px;
+            margin: 10px 0;
+            font-size: 14px;
+        }
+
+        .code-example {
+            background: #0b0d13;
+            color: #38bdf8;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-family: monospace;
+            margin-top: 5px;
+            font-size: 13px;
+        }
+
+        body.light .code-example {
+            background: #1e293b;
+            color: #38bdf8;
+        }
 
         .editor-container {
             display: flex;
             flex-direction: column;
             flex: 1;
-            min-height: 200px;
+            min-height: 180px;
         }
 
         textarea {
             width: 100%;
-            height: 160px;
+            height: 140px;
             background: #0b0d13;
             color: #fff;
             border: 2px solid var(--border-color);
@@ -182,7 +222,7 @@
             border-radius: 8px;
             padding: 15px;
             margin-top: 15px;
-            min-height: 120px;
+            min-height: 100px;
         }
     </style>
 </head>
@@ -193,12 +233,17 @@
         <span>🛠 HTML Мастер</span>
         <button class="theme-btn" onclick="toggleTheme()">🌓</button>
     </h2>
+    <div class="user-stats" id="user-stats">
+        <div>Очки опыта: <strong id="xp-count">0</strong> XP</div>
+        <div>Уровень: <strong id="level-title">Новичок</strong></div>
+    </div>
     <ul class="lessons-list" id="lessons-list"></ul>
 </div>
 
 <div class="main">
     <div class="task-card">
         <h2 id="lesson-title">Загрузка...</h2>
+        <div class="theory-box" id="lesson-theory"></div>
         <p id="lesson-desc"></p>
     </div>
 
@@ -216,23 +261,29 @@
 </div>
 
 <script>
-    // Массив уроков: вы можете легко добавлять сюда новые уроки или изменять тексты
+    // Полный курс с теорией и примерами
     const lessons = [
         {
-            title: "Урок 1: Заголовки (H1-H6)",
-            desc: "Используйте тег <code>&lt;h1&gt;Ваш текст&lt;/h1&gt;</code> для создания главного заголовка страницы.",
+            title: "1. Главные заголовки (H1)",
+            theory: "Тег &lt;h1&gt; используется для создания самого главного заголовка на странице. Всего в HTML есть 6 уровней заголовков от h1 до h6.",
+            example: "<h1>Мой главный заголовок</h1>",
+            desc: "<strong>Практика:</strong> Напишите заголовок первого уровня с текстом «Привет, мир!».",
             starter: "<h1>Привет, мир!</h1>",
+            xp: 50,
             check: (code) => {
-                if (!code.includes("<h1>") || !code.includes("</h1>")) {
-                    return "Ошибка: вы не использовали тег <code>&lt;h1&gt;</code> или забыли его закрыть (<code>&lt;/h1&gt;</code>).";
+                if (!code.includes("<h1>") || !code.includes("</s>") && !code.includes("</h1>")) {
+                    return "Ошибка: убедитесь, что вы использовали тег <code>&lt;h1&gt;</code> и закрыли его <code>&lt;/h1&gt;</code>.";
                 }
                 return "";
             }
         },
         {
-            title: "Урок 2: Параграфы (P)",
-            desc: "Для обычного текста используется парный тег <code>&lt;p&gt;текст&lt;/p&gt;</code>.",
-            starter: "<p>Это мой первый параграф в HTML.</p>",
+            title: "2. Параграфы текста (P)",
+            theory: "Для создания обычных абзацев текста используется парный тег &lt;p&gt;. Браузер автоматически делает отступы до и после параграфа.",
+            example: "<p>Это обычный абзац текста.</p>",
+            desc: "<strong>Практика:</strong> Создайте абзац с текстом «Я изучаю веб-разработку!».",
+            starter: "<p>Я изучаю веб-разработку!</p>",
+            xp: 50,
             check: (code) => {
                 if (!code.includes("<p>") || !code.includes("</p>")) {
                     return "Ошибка: каждый параграф должен начинаться с <code>&lt;p&gt;</code> и заканчиваться <code>&lt;/p&gt;</code>.";
@@ -241,23 +292,43 @@
             }
         },
         {
-            title: "Урок 3: Ссылки (A)",
-            desc: "Чтобы создать ссылку, используют тег <code>&lt;a href=\"адрес\"&gt;Текст ссылки&lt;/a&gt;</code>.",
-            starter: "<a href=\"https://google.com\">Перейти в Google</a>",
+            title: "3. Ссылки в интернете (A)",
+            theory: "Ссылки создаются с помощью тега &lt;a&gt;. Главный атрибут этого тега — <code>href</code>, в нем указывается адрес сайта, куда ведет ссылка.",
+            example: "<a href=\"https://google.com\">Перейти в Google</a>",
+            desc: "<strong>Практика:</strong> Создайте ссылку на сайт <code>https://github.com</code> с текстом «Мой GitHub».",
+            starter: "<a href=\"https://github.com\">Мой GitHub</a>",
+            xp: 100,
             check: (code) => {
                 if (!code.includes("<a") || !code.includes("href=") || !code.includes("</a>")) {
-                    return "Ошибка: проверьте синтаксис ссылки. Убедитесь, что указан атрибут <code>href=</code> и тег закрывается <code>&lt;/a&gt;</code>.";
+                    return "Ошибка: проверьте синтаксис ссылки. Нужен тег <code>&lt;a&gt;</code>, атрибут <code>href=...</code> и закрывающий тег <code>&lt;/a&gt;</code>.";
                 }
                 return "";
             }
         },
         {
-            title: "Урок 4: Списки (UL / LI)",
-            desc: "Маркированный список создается тегом <code>&lt;ul&gt;</code>, а его пункты — тегами <code>&lt;li&gt;</code>.",
+            title: "4. Списки (UL и LI)",
+            theory: "Чтобы сделать маркированный список, используют контейнер &lt;ul&gt;, а каждый пункт внутри него оформляют тегом &lt;li&gt;.",
+            example: "<ul>\n  <li>Первый элемент</li>\n  <li>Второй элемент</li>\n</ul>",
+            desc: "<strong>Практика:</strong> Создайте список из двух любых пунктов меню с помощью тегов <code>&lt;ul&gt;</code> и <code>&lt;li&gt;</code>.",
             starter: "<ul>\n  <li>Пункт 1</li>\n  <li>Пункт 2</li>\n</ul>",
+            xp: 150,
             check: (code) => {
                 if (!code.includes("<ul>") || !code.includes("</ul>") || !code.includes("<li>") || !code.includes("</li>")) {
-                    return "Ошибка: список должен содержать контейнер <code>&lt;ul&gt;</code> и как минимум один элемент <code>&lt;li&gt;</code>.";
+                    return "Ошибка: список должен содержать контейнер <code>&lt;ul&gt;</code> и пункты внутри <code>&lt;li&gt;</code>.";
+                }
+                return "";
+            }
+        },
+        {
+            title: "5. Картинки (IMG)",
+            theory: "Тег &lt;img&gt; служит для вставки изображений. Он одиночный (не требует закрывающего тега) и требует атрибута <code>src</code> с адресом картинки.",
+            example: "<img src=\"https://via.placeholder.com/150\" alt=\"Пример картинки\">",
+            desc: "<strong>Практика:</strong> Вставьте картинку, указав любой адрес в атрибуте <code>src</code>.",
+            starter: "<img src=\"https://via.placeholder.com/150\" alt=\"Картинка\">",
+            xp: 200,
+            check: (code) => {
+                if (!code.includes("<img") || !code.includes("src=")) {
+                    return "Ошибка: тег картинки должен быть записан как <code>&lt;img src=\"адрес\"&gt;</code>.";
                 }
                 return "";
             }
@@ -265,23 +336,37 @@
     ];
 
     let currentLesson = 0;
+    let userXP = parseInt(localStorage.getItem('html_master_xp')) || 0;
+    let completedLessons = JSON.parse(localStorage.getItem('html_master_completed')) || [];
+
+    function updateStats() {
+        document.getElementById("xp-count").innerText = userXP;
+        let levelTitle = "Новичок";
+        if (userXP >= 200) levelTitle = "Ученик";
+        if (userXP >= 400) levelTitle = "Верстальщик";
+        if (userXP >= 600) levelTitle = "Гуру HTML";
+        document.getElementById("level-title").innerText = levelTitle;
+    }
 
     function renderList() {
         const list = document.getElementById("lessons-list");
         list.innerHTML = "";
         lessons.forEach((l, index) => {
             const li = document.createElement("li");
-            li.className = `lesson-item ${index === currentLesson ? 'active' : ''}`;
-            li.innerHTML = `<strong>${l.title}</strong>`;
+            const isCompleted = completedLessons.includes(index);
+            li.className = `lesson-item ${index === currentLesson ? 'active' : ''} ${isCompleted ? 'completed' : ''}`;
+            li.innerHTML = `<span>${l.title}</span> <span>${isCompleted ? '✅' : ''}</span>`;
             li.onclick = () => loadLesson(index);
             list.appendChild(li);
         });
+        updateStats();
     }
 
     function loadLesson(index) {
         currentLesson = index;
         renderList();
         document.getElementById("lesson-title").innerText = lessons[index].title;
+        document.getElementById("lesson-theory").innerHTML = `${lessons[index].theory}<div class="code-example">${lessons[index].example}</div>`;
         document.getElementById("lesson-desc").innerHTML = lessons[index].desc;
         document.getElementById("code-input").value = lessons[index].starter;
         document.getElementById("feedback").className = "feedback";
@@ -308,8 +393,17 @@
             preview.innerHTML = "";
         } else {
             feedback.className = "feedback success";
-            feedback.innerHTML = "✨ Великолепно! Задание выполнено правильно.";
+            feedback.innerHTML = `✨ Отлично! Задание выполнено (+${lessons[currentLesson].xp} XP).`;
             preview.innerHTML = code;
+
+            // Зачисляем XP и сохраняем прогресс, если урок пройден впервые
+            if (!completedLessons.includes(currentLesson)) {
+                completedLessons.push(currentLesson);
+                userXP += lessons[currentLesson].xp;
+                localStorage.setItem('html_master_xp', userXP);
+                localStorage.setItem('html_master_completed', JSON.stringify(completedLessons));
+                renderList();
+            }
         }
     }
 
@@ -317,7 +411,7 @@
         document.body.classList.toggle("light");
     }
 
-    // Инициализация при загрузке
+    // Инициализация
     loadLesson(0);
 </script>
 
