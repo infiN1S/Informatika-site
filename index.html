@@ -2,28 +2,28 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>HTML Мастер — Интерактивный учебник</title>
+    <title>HTML Трэк — Интерактивный кодинг</title>
     <style>
         :root {
-            --bg-primary: #0f111a;
-            --bg-secondary: #181a26;
-            --border-color: #2d3142;
-            --text-main: #a9b7c6;
-            --text-light: #ffffff;
-            --accent: #ffe600;
-            --accent-hover: #e5cf00;
-            --success: #22c55e;
-            --error: #ef4444;
+            --bg-primary: #0b0f19;
+            --bg-secondary: #131b2e;
+            --border-color: #1e293b;
+            --text-main: #94a3b8;
+            --text-light: #f8fafc;
+            --accent: #38bdf8;
+            --accent-hover: #0ea5e9;
+            --success: #10b981;
+            --error: #f43f5e;
         }
 
         body.light {
-            --bg-primary: #f4f4f9;
+            --bg-primary: #f8fafc;
             --bg-secondary: #ffffff;
-            --border-color: #d1d5db;
-            --text-main: #334155;
+            --border-color: #e2e8f0;
+            --text-main: #475569;
             --text-light: #0f172a;
-            --accent: #4f46e5;
-            --accent-hover: #4338ca;
+            --accent: #0284c7;
+            --accent-hover: #0369a1;
         }
 
         * { box-sizing: border-box; }
@@ -65,15 +65,15 @@
             color: var(--text-main);
             cursor: pointer;
             padding: 5px 10px;
-            border-radius: 4px;
+            border-radius: 6px;
             font-size: 12px;
         }
 
         .user-stats {
-            background: rgba(255,255,255,0.03);
+            background: rgba(56, 189, 248, 0.05);
             border: 1px solid var(--border-color);
-            padding: 10px;
-            border-radius: 6px;
+            padding: 10px 12px;
+            border-radius: 8px;
             margin-bottom: 15px;
             font-size: 13px;
         }
@@ -85,11 +85,11 @@
         }
 
         .lesson-item {
-            padding: 10px 12px;
+            padding: 12px;
             margin-bottom: 8px;
-            background: rgba(255,255,255,0.02);
+            background: rgba(255,255,255,0.01);
             border: 1px solid var(--border-color);
-            border-radius: 6px;
+            border-radius: 8px;
             cursor: pointer;
             transition: 0.15s;
             display: flex;
@@ -100,7 +100,7 @@
 
         .lesson-item:hover, .lesson-item.active {
             border-color: var(--accent);
-            background: rgba(255, 230, 0, 0.05);
+            background: rgba(56, 189, 248, 0.05);
             color: var(--text-light);
         }
 
@@ -121,49 +121,59 @@
             background: var(--bg-secondary);
             border: 1px solid var(--border-color);
             padding: 20px;
-            border-radius: 8px;
+            border-radius: 10px;
             margin-bottom: 15px;
         }
 
         .task-card h2 { margin-top: 0; color: var(--text-light); }
         
         .theory-box {
-            background: rgba(255,255,255,0.02);
+            background: rgba(56, 189, 248, 0.04);
             border-left: 3px solid var(--accent);
-            padding: 10px 15px;
-            margin: 10px 0;
-            font-size: 14px;
+            padding: 12px 15px;
+            margin: 12px 0;
+            font-size: 13.5px;
+            line-height: 1.5;
+            color: var(--text-light);
+            border-radius: 0 6px 6px 0;
         }
 
         .code-example {
-            background: #0b0d13;
+            background: #04060b;
             color: #38bdf8;
-            padding: 8px 12px;
-            border-radius: 4px;
+            padding: 10px 14px;
+            border-radius: 6px;
             font-family: monospace;
-            margin-top: 5px;
+            margin-top: 8px;
             font-size: 13px;
+            border: 1px solid var(--border-color);
         }
 
         body.light .code-example {
-            background: #1e293b;
+            background: #0f172a;
             color: #38bdf8;
+        }
+
+        .task-desc {
+            margin-top: 15px;
+            color: var(--text-light);
+            font-weight: bold;
         }
 
         .editor-container {
             display: flex;
             flex-direction: column;
             flex: 1;
-            min-height: 180px;
+            min-height: 160px;
         }
 
         textarea {
             width: 100%;
-            height: 140px;
-            background: #0b0d13;
-            color: #fff;
+            height: 130px;
+            background: #04060b;
+            color: #f8fafc;
             border: 2px solid var(--border-color);
-            border-radius: 6px;
+            border-radius: 8px;
             font-family: monospace;
             padding: 12px;
             font-size: 14px;
@@ -171,7 +181,7 @@
         }
 
         body.light textarea {
-            background: #1e293b;
+            background: #0f172a;
             color: #f8fafc;
         }
 
@@ -180,29 +190,21 @@
         .btn-group {
             display: flex;
             gap: 10px;
-            margin-top: 10px;
+            margin-top: 12px;
         }
 
         button.action-btn {
             background: var(--accent);
-            color: #000;
-            border: 2px solid #000;
+            color: #0b0f19;
+            border: none;
             font-weight: bold;
             padding: 10px 20px;
             border-radius: 6px;
             cursor: pointer;
-            box-shadow: 3px 3px 0px #000;
             transition: 0.1s;
         }
 
-        body.light button.action-btn {
-            color: #fff;
-            border-color: #312e81;
-            background: var(--accent);
-            box-shadow: 3px 3px 0px #312e81;
-        }
-
-        button.action-btn:hover { transform: translate(1px, 1px); box-shadow: 1px 1px 0px #000; }
+        button.action-btn:hover { background: var(--accent-hover); }
 
         .feedback {
             margin-top: 10px;
@@ -210,10 +212,11 @@
             padding: 12px;
             border-radius: 6px;
             display: none;
+            font-size: 13px;
         }
 
-        .feedback.error { background: rgba(239, 68, 68, 0.1); color: var(--error); border: 1px solid var(--error); display: block; }
-        .feedback.success { background: rgba(34, 197, 94, 0.1); color: var(--success); border: 1px solid var(--success); display: block; }
+        .feedback.error { background: rgba(244, 63, 94, 0.1); color: var(--error); border: 1px solid var(--error); display: block; }
+        .feedback.success { background: rgba(16, 185, 129, 0.1); color: var(--success); border: 1px solid var(--success); display: block; }
 
         .preview-box {
             background: #ffffff;
@@ -222,7 +225,7 @@
             border-radius: 8px;
             padding: 15px;
             margin-top: 15px;
-            min-height: 100px;
+            min-height: 90px;
         }
     </style>
 </head>
@@ -230,12 +233,12 @@
 
 <div class="sidebar">
     <h2>
-        <span>🛠 HTML Мастер</span>
+        <span>⚡ HTML Трэк</span>
         <button class="theme-btn" onclick="toggleTheme()">🌓</button>
     </h2>
-    <div class="user-stats" id="user-stats">
-        <div>Очки опыта: <strong id="xp-count">0</strong> XP</div>
-        <div>Уровень: <strong id="level-title">Новичок</strong></div>
+    <div class="user-stats">
+        <div>Опыт: <strong id="xp-count">0</strong> XP</div>
+        <div>Ранг: <strong id="level-title">Стажёр</strong></div>
     </div>
     <ul class="lessons-list" id="lessons-list"></ul>
 </div>
@@ -244,176 +247,49 @@
     <div class="task-card">
         <h2 id="lesson-title">Загрузка...</h2>
         <div class="theory-box" id="lesson-theory"></div>
-        <p id="lesson-desc"></p>
+        <div class="task-desc" id="lesson-desc"></div>
     </div>
 
     <div class="editor-container">
-        <textarea id="code-input" placeholder="Пишите HTML код здесь..."></textarea>
+        <textarea id="code-input" placeholder="Пиши свой код здесь..."></textarea>
         <div class="btn-group">
-            <button class="action-btn" onclick="checkCode()">Проверить решение</button>
-            <button class="action-btn" style="background: transparent; color: var(--text-main); border-color: var(--border-color); box-shadow: none;" onclick="resetCode()">Сбросить</button>
+            <button class="action-btn" onclick="checkCode()">Проверить код</button>
+            <button class="action-btn" style="background: transparent; color: var(--text-main); border: 1px solid var(--border-color);" onclick="resetCode()">Сбросить</button>
         </div>
         <div id="feedback" class="feedback"></div>
     </div>
 
-    <h3 style="margin-bottom: 5px; color: var(--text-light);">Живое превью:</h3>
+    <h3 style="margin-bottom: 5px; color: var(--text-light); font-size: 14px;">Результат в браузере:</h3>
     <div id="preview" class="preview-box"></div>
 </div>
 
 <script>
-    // Полный курс с теорией и примерами
+    // Массив уроков с теорией, логикой работы тегов и проверкой
     const lessons = [
         {
-            title: "1. Главные заголовки (H1)",
-            theory: "Тег &lt;h1&gt; используется для создания самого главного заголовка на странице. Всего в HTML есть 6 уровней заголовков от h1 до h6.",
-            example: "<h1>Мой главный заголовок</h1>",
-            desc: "<strong>Практика:</strong> Напишите заголовок первого уровня с текстом «Привет, мир!».",
-            starter: "<h1>Привет, мир!</h1>",
+            title: "1. Заголовки (H1)",
+            theory: "<strong>Как это работает:</strong> Тег <code>&lt;h1&gt;</code> говорит браузеру: «Это главный заголовок страницы». Браузер автоматически делает текст крупным и жирным. Всегда закрывай теги с помощью слэша (<code>&lt;/h1&gt;</code>).",
+            example: "<h1>Твой главный заголовок</h1>",
+            desc: "🎯 Задача: Напиши заголовок первого уровня с текстом «Привет, мир!».",
             xp: 50,
             check: (code) => {
-                if (!code.includes("<h1>") || !code.includes("</s>") && !code.includes("</h1>")) {
-                    return "Ошибка: убедитесь, что вы использовали тег <code>&lt;h1&gt;</code> и закрыли его <code>&lt;/h1&gt;</code>.";
+                if (!code.includes("<h1>") || !code.includes("</h1>")) {
+                    return "Ошибка: Не найдены теги <code>&lt;h1&gt;</code> или <code>&lt;/h1&gt;</code>.";
                 }
                 return "";
             }
         },
         {
-            title: "2. Параграфы текста (P)",
-            theory: "Для создания обычных абзацев текста используется парный тег &lt;p&gt;. Браузер автоматически делает отступы до и после параграфа.",
-            example: "<p>Это обычный абзац текста.</p>",
-            desc: "<strong>Практика:</strong> Создайте абзац с текстом «Я изучаю веб-разработку!».",
-            starter: "<p>Я изучаю веб-разработку!</p>",
+            title: "2. Параграфы (P)",
+            theory: "<strong>Как это работает:</strong> Тег <code>&lt;p&gt;</code> означает paragraph (абзац). Используется для любого обычного текста. Браузер сам выстраивает отступы вокруг него.",
+            example: "<p>Здесь пишется обычный текст статьи.</p>",
+            desc: "🎯 Задача: Создай блок текста внутри тега <code>&lt;p&gt;</code> с фразой «Изучаю веб-разработку».",
             xp: 50,
             check: (code) => {
                 if (!code.includes("<p>") || !code.includes("</p>")) {
-                    return "Ошибка: каждый параграф должен начинаться с <code>&lt;p&gt;</code> и заканчиваться <code>&lt;/p&gt;</code>.";
+                    return "Ошибка: Используй парные теги <code>&lt;p&gt;текст&lt;/p&gt;</code>.";
                 }
                 return "";
             }
         },
         {
-            title: "3. Ссылки в интернете (A)",
-            theory: "Ссылки создаются с помощью тега &lt;a&gt;. Главный атрибут этого тега — <code>href</code>, в нем указывается адрес сайта, куда ведет ссылка.",
-            example: "<a href=\"https://google.com\">Перейти в Google</a>",
-            desc: "<strong>Практика:</strong> Создайте ссылку на сайт <code>https://github.com</code> с текстом «Мой GitHub».",
-            starter: "<a href=\"https://github.com\">Мой GitHub</a>",
-            xp: 100,
-            check: (code) => {
-                if (!code.includes("<a") || !code.includes("href=") || !code.includes("</a>")) {
-                    return "Ошибка: проверьте синтаксис ссылки. Нужен тег <code>&lt;a&gt;</code>, атрибут <code>href=...</code> и закрывающий тег <code>&lt;/a&gt;</code>.";
-                }
-                return "";
-            }
-        },
-        {
-            title: "4. Списки (UL и LI)",
-            theory: "Чтобы сделать маркированный список, используют контейнер &lt;ul&gt;, а каждый пункт внутри него оформляют тегом &lt;li&gt;.",
-            example: "<ul>\n  <li>Первый элемент</li>\n  <li>Второй элемент</li>\n</ul>",
-            desc: "<strong>Практика:</strong> Создайте список из двух любых пунктов меню с помощью тегов <code>&lt;ul&gt;</code> и <code>&lt;li&gt;</code>.",
-            starter: "<ul>\n  <li>Пункт 1</li>\n  <li>Пункт 2</li>\n</ul>",
-            xp: 150,
-            check: (code) => {
-                if (!code.includes("<ul>") || !code.includes("</ul>") || !code.includes("<li>") || !code.includes("</li>")) {
-                    return "Ошибка: список должен содержать контейнер <code>&lt;ul&gt;</code> и пункты внутри <code>&lt;li&gt;</code>.";
-                }
-                return "";
-            }
-        },
-        {
-            title: "5. Картинки (IMG)",
-            theory: "Тег &lt;img&gt; служит для вставки изображений. Он одиночный (не требует закрывающего тега) и требует атрибута <code>src</code> с адресом картинки.",
-            example: "<img src=\"https://via.placeholder.com/150\" alt=\"Пример картинки\">",
-            desc: "<strong>Практика:</strong> Вставьте картинку, указав любой адрес в атрибуте <code>src</code>.",
-            starter: "<img src=\"https://via.placeholder.com/150\" alt=\"Картинка\">",
-            xp: 200,
-            check: (code) => {
-                if (!code.includes("<img") || !code.includes("src=")) {
-                    return "Ошибка: тег картинки должен быть записан как <code>&lt;img src=\"адрес\"&gt;</code>.";
-                }
-                return "";
-            }
-        }
-    ];
-
-    let currentLesson = 0;
-    let userXP = parseInt(localStorage.getItem('html_master_xp')) || 0;
-    let completedLessons = JSON.parse(localStorage.getItem('html_master_completed')) || [];
-
-    function updateStats() {
-        document.getElementById("xp-count").innerText = userXP;
-        let levelTitle = "Новичок";
-        if (userXP >= 200) levelTitle = "Ученик";
-        if (userXP >= 400) levelTitle = "Верстальщик";
-        if (userXP >= 600) levelTitle = "Гуру HTML";
-        document.getElementById("level-title").innerText = levelTitle;
-    }
-
-    function renderList() {
-        const list = document.getElementById("lessons-list");
-        list.innerHTML = "";
-        lessons.forEach((l, index) => {
-            const li = document.createElement("li");
-            const isCompleted = completedLessons.includes(index);
-            li.className = `lesson-item ${index === currentLesson ? 'active' : ''} ${isCompleted ? 'completed' : ''}`;
-            li.innerHTML = `<span>${l.title}</span> <span>${isCompleted ? '✅' : ''}</span>`;
-            li.onclick = () => loadLesson(index);
-            list.appendChild(li);
-        });
-        updateStats();
-    }
-
-    function loadLesson(index) {
-        currentLesson = index;
-        renderList();
-        document.getElementById("lesson-title").innerText = lessons[index].title;
-        document.getElementById("lesson-theory").innerHTML = `${lessons[index].theory}<div class="code-example">${lessons[index].example}</div>`;
-        document.getElementById("lesson-desc").innerHTML = lessons[index].desc;
-        document.getElementById("code-input").value = lessons[index].starter;
-        document.getElementById("feedback").className = "feedback";
-        document.getElementById("feedback").innerHTML = "";
-        document.getElementById("preview").innerHTML = "";
-    }
-
-    function resetCode() {
-        document.getElementById("code-input").value = lessons[currentLesson].starter;
-        document.getElementById("feedback").className = "feedback";
-        document.getElementById("preview").innerHTML = "";
-    }
-
-    function checkCode() {
-        const code = document.getElementById("code-input").value;
-        const feedback = document.getElementById("feedback");
-        const preview = document.getElementById("preview");
-
-        const errorMsg = lessons[currentLesson].check(code);
-
-        if (errorMsg) {
-            feedback.className = "feedback error";
-            feedback.innerHTML = errorMsg;
-            preview.innerHTML = "";
-        } else {
-            feedback.className = "feedback success";
-            feedback.innerHTML = `✨ Отлично! Задание выполнено (+${lessons[currentLesson].xp} XP).`;
-            preview.innerHTML = code;
-
-            // Зачисляем XP и сохраняем прогресс, если урок пройден впервые
-            if (!completedLessons.includes(currentLesson)) {
-                completedLessons.push(currentLesson);
-                userXP += lessons[currentLesson].xp;
-                localStorage.setItem('html_master_xp', userXP);
-                localStorage.setItem('html_master_completed', JSON.stringify(completedLessons));
-                renderList();
-            }
-        }
-    }
-
-    function toggleTheme() {
-        document.body.classList.toggle("light");
-    }
-
-    // Инициализация
-    loadLesson(0);
-</script>
-
-</body>
-</html>
